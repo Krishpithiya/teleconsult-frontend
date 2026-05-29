@@ -1,8 +1,6 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense} from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
@@ -10,7 +8,7 @@ import { Eye, EyeOff, Mail, Lock, User, Phone, Stethoscope, ArrowRight, CheckCir
 
 type Role = "patient" | "doctor";
 
-export default function RegisterPage() {
+function RegisterContent() {
   const { register, isLoading } = useAuth();
   const searchParams = useSearchParams();
   const [role, setRole]         = useState<Role>("patient");
@@ -204,5 +202,13 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RegisterContent />
+    </Suspense>
   );
 }
