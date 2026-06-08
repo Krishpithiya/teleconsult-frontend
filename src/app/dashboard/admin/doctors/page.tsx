@@ -9,16 +9,18 @@ import Input from "@/components/ui/Input";
 import api from "@/lib/axios";
 import {
   UserCheck,
-  ShieldCheck,
-  Calendar,
-  Users,
   Search,
   CheckCircle2,
   XCircle,
-  User,
   Stethoscope,
   Clock,
   Wallet,
+  Mail,
+  Phone,
+  Calendar,
+  Languages,
+  Award,
+  X,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { adminNav } from "@/lib/navItems";
@@ -37,6 +39,18 @@ interface DoctorEntry {
     specialization: string;
     experience: number;
     consultationFee: number;
+    bio?: string;
+    qualifications?: string[];
+    languages?: string[];
+    availableDays?: {
+      day: string;
+      slots: {
+        _id?: string;
+        startTime: string;
+        endTime: string;
+        isBooked?: boolean;
+      }[];
+    }[];
     isProfileComplete: boolean;
   } | null;
 }
@@ -56,6 +70,7 @@ export default function AdminDoctorsPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
   const [actionId, setActionId] = useState<string | null>(null);
+  const [selectedDoctor, setSelectedDoctor] = useState<DoctorEntry | null>(null);
 
   const fetchDoctors = useCallback(async () => {
     setIsLoading(true);
@@ -152,19 +167,28 @@ export default function AdminDoctorsPage() {
                 <div key={i} className="skeleton h-28 rounded-2xl" />
               ))
             ) : doctors.length === 0 ? (
-              <div className="bg-white rounded-2xl border border-slate-100 p-16 text-center">
-                <UserCheck size={28} className="text-slate-300 mx-auto mb-3" />
+              <div className="mobile-soft-pad bg-white rounded-2xl border border-slate-100 p-16 text-center">
+                <span className="tc-icon-tile tc-icon-tile-lg mx-auto mb-3"><UserCheck size={28} /></span>
                 <p className="text-slate-500 font-medium">No doctors found</p>
               </div>
             ) : (
               doctors.map(({ user, profile }) => (
                 <div
                   key={user._id}
-                  className="bg-white rounded-2xl border border-slate-100 p-5 flex flex-col sm:flex-row gap-4"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setSelectedDoctor({ user, profile })}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setSelectedDoctor({ user, profile });
+                    }
+                  }}
+                  className="bg-white rounded-2xl border border-slate-100 p-5 flex flex-col sm:flex-row gap-4 cursor-pointer transition-all hover:border-sky-100 hover:shadow-lg"
                 >
                   {/* Avatar */}
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1D6FA4] to-[#22C9C9] flex items-center justify-center flex-shrink-0">
-                    <span className="text-white font-bold text-lg">
+                  <div className="tc-icon-tile tc-icon-tile-lg">
+                    <span className="font-bold text-lg">
                       {user.name?.charAt(0)}
                     </span>
                   </div>
@@ -231,7 +255,10 @@ export default function AdminDoctorsPage() {
                         size="xs"
                         leftIcon={<CheckCircle2 size={13} />}
                         isLoading={actionId === user._id}
-                        onClick={() => handleVerify(user._id, true)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleVerify(user._id, true);
+                        }}
                       >
                         Verify
                       </Button>
@@ -241,7 +268,10 @@ export default function AdminDoctorsPage() {
                         variant="outline"
                         leftIcon={<XCircle size={13} />}
                         isLoading={actionId === user._id}
-                        onClick={() => handleVerify(user._id, false)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleVerify(user._id, false);
+                        }}
                         className="text-red-500 border-red-200 hover:bg-red-50"
                       >
                         Revoke
@@ -275,6 +305,186 @@ export default function AdminDoctorsPage() {
               >
                 Next →
               </Button>
+            </div>
+          )}
+
+          {selectedDoctor && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <div
+                className="absolute inset-0 bg-slate-900/45 backdrop-blur-sm"
+                onClick={() => setSelectedDoctor(null)}
+              />
+              <div className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-white shadow-2xl">
+                <div className="flex items-start justify-between gap-4 border-b border-slate-100 p-5">
+                  <div className="flex items-center gap-4">
+                    <div className="tc-icon-tile tc-icon-tile-xl">
+                      <span className="text-2xl font-bold">
+                        {selectedDoctor.user.name?.charAt(0)}
+                      </span>
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-slate-900">
+                        {selectedDoctor.user.name}
+                      </h2>
+                      <p className="text-sm text-slate-500">
+                        {selectedDoctor.profile?.specialization || "No specialization added"}
+                      </p>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        <Badge
+                          variant={
+                            selectedDoctor.user.isVerified
+                              ? "verified"
+                              : "pending-verify"
+                          }
+                        />
+                        {!selectedDoctor.profile?.isProfileComplete && (
+                          <span className="rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-600">
+                            Profile incomplete
+                          </span>
+                        )}
+                        {!selectedDoctor.user.isActive && (
+                          <span className="rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-600">
+                            Inactive
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedDoctor(null)}
+                    className="rounded-xl p-2 text-slate-400 transition-colors hover:bg-slate-50 hover:text-slate-700"
+                    aria-label="Close doctor details"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+
+                <div className="space-y-5 p-5">
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="rounded-xl border border-slate-100 p-4">
+                      <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <Mail size={14} /> Email
+                      </div>
+                      <p className="break-words text-sm font-medium text-slate-800">
+                        {selectedDoctor.user.email}
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-slate-100 p-4">
+                      <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <Phone size={14} /> Phone
+                      </div>
+                      <p className="text-sm font-medium text-slate-800">
+                        {selectedDoctor.user.phone || "Not added"}
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-slate-100 p-4">
+                      <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <Calendar size={14} /> Registered
+                      </div>
+                      <p className="text-sm font-medium text-slate-800">
+                        {new Date(selectedDoctor.user.createdAt).toLocaleDateString("en-IN", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                    <div className="rounded-xl bg-slate-50 p-4">
+                      <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <Clock size={14} /> Experience
+                      </div>
+                      <p className="text-sm font-bold text-slate-900">
+                        {selectedDoctor.profile ? `${selectedDoctor.profile.experience || 0} years` : "Not added"}
+                      </p>
+                    </div>
+                    <div className="rounded-xl bg-slate-50 p-4">
+                      <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <Wallet size={14} /> Fee
+                      </div>
+                      <p className="text-sm font-bold text-slate-900">
+                        {selectedDoctor.profile ? `₹${selectedDoctor.profile.consultationFee || 0}` : "Not added"}
+                      </p>
+                    </div>
+                    <div className="rounded-xl bg-slate-50 p-4">
+                      <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <Languages size={14} /> Languages
+                      </div>
+                      <p className="text-sm font-bold text-slate-900">
+                        {selectedDoctor.profile?.languages?.length
+                          ? selectedDoctor.profile.languages.join(", ")
+                          : "Not added"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="rounded-xl border border-slate-100 p-4">
+                    <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                      <Award size={14} /> Qualifications
+                    </div>
+                    {selectedDoctor.profile?.qualifications?.length ? (
+                      <div className="flex flex-wrap gap-2">
+                        {selectedDoctor.profile.qualifications.map((q) => (
+                          <span
+                            key={q}
+                            className="rounded-full border border-slate-100 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600"
+                          >
+                            {q}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-slate-500">No qualifications added.</p>
+                    )}
+                  </div>
+
+                  <div className="rounded-xl border border-slate-100 p-4">
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                      Bio
+                    </p>
+                    <p className="text-sm leading-relaxed text-slate-600">
+                      {selectedDoctor.profile?.bio || "No bio added."}
+                    </p>
+                  </div>
+
+                  <div className="rounded-xl border border-slate-100 p-4">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                      Availability
+                    </p>
+                    {selectedDoctor.profile?.availableDays?.length ? (
+                      <div className="space-y-3">
+                        {selectedDoctor.profile.availableDays.map((day) => (
+                          <div key={day.day} className="rounded-xl bg-slate-50 p-3">
+                            <p className="mb-2 text-sm font-semibold text-slate-800">
+                              {day.day}
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                              {day.slots?.length ? (
+                                day.slots.map((slot, index) => (
+                                  <span
+                                    key={slot._id || `${day.day}-${index}`}
+                                    className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-600 ring-1 ring-slate-100"
+                                  >
+                                    {slot.startTime} - {slot.endTime}
+                                    {slot.isBooked ? " booked" : ""}
+                                  </span>
+                                ))
+                              ) : (
+                                <span className="text-xs text-slate-400">No slots</span>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-slate-500">No availability added.</p>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>

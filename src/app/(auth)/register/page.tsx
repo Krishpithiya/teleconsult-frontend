@@ -49,16 +49,16 @@ function RegisterContent() {
   });
 
   return (
-    <div style={{ minHeight:"100vh", display:"flex", background:"linear-gradient(135deg,#f0fdfa 0%,#e0f2fe 50%,#f0fdf4 100%)" }}>
+    <div className="auth-shell" style={{ minHeight:"100vh", display:"flex", background:"linear-gradient(135deg,#f0fdfa 0%,#e0f2fe 50%,#f0fdf4 100%)" }}>
       {/* Left panel */}
-      <div style={{
+      <div className="hidden-mobile" style={{
         flex:1, display:"flex", flexDirection:"column", justifyContent:"center",
         alignItems:"center", padding:"60px 48px",
         background:"linear-gradient(135deg,#0f766e 0%,#0369a1 100%)", color:"#fff",
       }}>
         <div style={{ maxWidth:380, textAlign:"center" }}>
-          <div style={{ width:72, height:72, borderRadius:20, background:"rgba(255,255,255,0.2)", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 32px" }}>
-            <Stethoscope size={36} color="#fff"/>
+          <div className="tc-icon-tile tc-icon-tile-xl" style={{ margin:"0 auto 32px" }}>
+            <Stethoscope size={36}/>
           </div>
           <h1 style={{ fontSize:"2rem", fontWeight:800, marginBottom:16, color:"#fff" }}>Join TeleConsult</h1>
           <p style={{ color:"rgba(255,255,255,0.85)", lineHeight:1.7, marginBottom:40 }}>
@@ -79,11 +79,11 @@ function RegisterContent() {
       </div>
 
       {/* Right panel – form */}
-      <div style={{ flex:1, display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"40px 24px", overflowY:"auto" }}>
+      <div className="auth-form-panel" style={{ flex:1, display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"40px 24px", overflowY:"auto" }}>
         <div style={{ width:"100%", maxWidth:440 }}>
           <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:32 }}>
-            <div style={{ width:40, height:40, borderRadius:10, background:"var(--brand)", display:"flex", alignItems:"center", justifyContent:"center" }}>
-              <Stethoscope size={22} color="#fff"/>
+            <div className="tc-icon-tile tc-icon-tile-md">
+              <Stethoscope size={22}/>
             </div>
             <span style={{ fontWeight:800, fontSize:20, color:"var(--brand)" }}>TeleConsult</span>
           </div>
@@ -102,8 +102,10 @@ function RegisterContent() {
                 background: role===r ? "var(--brand)" : "transparent",
                 color: role===r ? "#fff" : "var(--text-secondary)",
                 transition:"all 0.2s",
+                display:"flex", alignItems:"center", justifyContent:"center", gap:8,
               }}>
-                {r === "patient" ? "🏥 Patient" : "👨‍⚕️ Doctor"}
+                {r === "patient" ? <User size={16}/> : <Stethoscope size={16}/>}
+                {r === "patient" ? "Patient" : "Doctor"}
               </button>
             ))}
           </div>

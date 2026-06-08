@@ -107,7 +107,7 @@ const AppointmentCard = ({
       }}
     >
       {/* Date block */}
-      <div className="flex-shrink-0 w-16 h-16 bg-sky-50 rounded-2xl flex flex-col items-center justify-center">
+      <div className="tc-icon-tile h-16 w-16 flex-col">
         <span className="text-xs font-semibold text-[#1D6FA4] uppercase">
           {date.toLocaleDateString("en-US", { month: "short" })}
         </span>
@@ -280,9 +280,9 @@ export default function PatientAppointmentsPage() {
                 <div key={i} className="skeleton h-28 rounded-2xl" />
               ))
             ) : appointments.length === 0 ? (
-              <div className="bg-white rounded-2xl p-16 text-center">
-                <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                  <Calendar size={24} className="text-slate-300" />
+              <div className="mobile-soft-pad bg-white rounded-2xl p-16 text-center">
+                <div className="tc-icon-tile tc-icon-tile-lg mx-auto mb-3">
+                  <Calendar size={24} />
                 </div>
                 <p className="text-[#7A90A4] font-medium">
                   No appointments found

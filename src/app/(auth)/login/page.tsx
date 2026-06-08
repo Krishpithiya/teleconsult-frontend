@@ -28,7 +28,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{
+    <div className="auth-shell" style={{
       minHeight:"100vh", display:"flex", background:"linear-gradient(135deg,#f0fdfa 0%,#e0f2fe 50%,#f0fdf4 100%)",
     }}>
       {/* Left panel */}
@@ -38,11 +38,8 @@ export default function LoginPage() {
         color:"#fff", minHeight:"100vh",
       }} className="hidden-mobile">
         <div style={{ maxWidth:380, textAlign:"center" }}>
-          <div style={{
-            width:72, height:72, borderRadius:20, background:"rgba(255,255,255,0.2)",
-            display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 32px",
-          }}>
-            <Stethoscope size={36} color="#fff"/>
+          <div className="tc-icon-tile tc-icon-tile-xl" style={{ margin:"0 auto 32px" }}>
+            <Stethoscope size={36}/>
           </div>
           <h1 style={{ fontSize:"2rem", fontWeight:800, marginBottom:16, color:"#fff" }}>
             Welcome Back to TeleConsult
@@ -67,15 +64,15 @@ export default function LoginPage() {
       </div>
 
       {/* Right panel – form */}
-      <div style={{
+      <div className="auth-form-panel" style={{
         flex:1, display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center",
         padding:"40px 24px", minHeight:"100vh",
       }}>
         <div style={{ width:"100%", maxWidth:420 }}>
           {/* Logo for mobile */}
           <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:36 }}>
-            <div style={{ width:40, height:40, borderRadius:10, background:"var(--brand)", display:"flex", alignItems:"center", justifyContent:"center" }}>
-              <Stethoscope size={22} color="#fff"/>
+            <div className="tc-icon-tile tc-icon-tile-md">
+              <Stethoscope size={22}/>
             </div>
             <span style={{ fontWeight:800, fontSize:20, color:"var(--brand)" }}>TeleConsult</span>
           </div>

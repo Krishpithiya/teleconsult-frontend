@@ -74,7 +74,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
   font-size: 14px;
+  overflow-x: hidden;
 }
+
+img, video, canvas, svg { max-width: 100%; }
+button, input, textarea, select { min-width: 0; }
 
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -164,4 +168,83 @@ h1,h2,h3,h4,h5 {
 }
 .bg-hero-gradient {
   background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 50%, #f0fdf4 100%);
+}
+
+/* Photo-inspired icon tile: dark navy square + bright blue line icon */
+.tc-icon-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #172a52 0%, #13213f 100%) !important;
+  color: #5ea8ff !important;
+  border: 1px solid rgba(94, 168, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 10px 24px rgba(10, 24, 48, 0.16);
+}
+
+.tc-icon-tile svg {
+  color: #5ea8ff !important;
+  stroke: currentColor;
+}
+
+.tc-icon-tile-sm {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+}
+
+.tc-icon-tile-md {
+  width: 44px;
+  height: 44px;
+}
+
+.tc-icon-tile-lg {
+  width: 52px;
+  height: 52px;
+}
+
+.tc-icon-tile-xl {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+}
+
+.tc-nav-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+}
+
+@media (max-width: 640px) {
+  body { font-size: 13px; }
+
+  .card {
+    border-radius: var(--radius-lg);
+  }
+
+  .mobile-soft-pad {
+    padding: 24px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+
+  .auth-shell {
+    min-height: 100svh !important;
+  }
+
+  .auth-form-panel {
+    width: 100% !important;
+    min-height: 100svh !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .auth-form-panel {
+    padding: 28px 16px !important;
+  }
 }

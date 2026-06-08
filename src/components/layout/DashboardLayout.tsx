@@ -31,15 +31,14 @@ export default function DashboardLayout({ children }: Props) {
   };
 
   return (
-    <div style={{ display:"flex", minHeight:"calc(100vh - 64px)" }}>
+    <div className="flex min-h-screen flex-col md:flex-row">
       {/* ── Sidebar ── */}
-      <aside style={{
-        width:240, background:"#0f172a", color:"#fff",
-        display:"flex", flexDirection:"column", flexShrink:0,
-        position:"sticky", top:64, height:"calc(100vh - 64px)", overflowY:"auto",
-      }}>
+      <aside
+        className="sticky top-0 z-40 flex w-full shrink-0 flex-col overflow-hidden text-white md:h-screen md:w-60 md:overflow-y-auto"
+        style={{ background:"#0f172a" }}
+      >
         {/* User card */}
-        <div style={{ padding:"20px 16px 16px", borderBottom:"1px solid rgba(255,255,255,0.07)" }}>
+        <div className="px-4 py-3 md:px-4 md:pb-4 md:pt-5" style={{ borderBottom:"1px solid rgba(255,255,255,0.07)" }}>
           <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:8 }}>
             <div style={{
               width:42, height:42, borderRadius:"50%", flexShrink:0,
@@ -70,7 +69,7 @@ export default function DashboardLayout({ children }: Props) {
         </div>
 
         {/* Nav */}
-        <nav style={{ padding:"12px 10px", flex:1 }}>
+        <nav className="flex gap-2 overflow-x-auto px-3 py-2 md:block md:flex-1 md:overflow-visible md:px-2.5 md:py-3">
           {navItems.map((item) => {
             const depth = item.href.split("/").length;
             const isActive = depth <= 3
@@ -86,10 +85,11 @@ export default function DashboardLayout({ children }: Props) {
                 background: isActive ? "var(--brand)" : "transparent",
                 color: isActive ? "#fff" : "rgba(255,255,255,0.6)",
                 transition:"all 0.15s",
+                flexShrink: 0,
               }}
               onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.color = "#fff"; }}
               onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.6)"; } }}>
-                <span style={{ flexShrink:0, display:"flex" }}>{item.icon}</span>
+                <span className="tc-icon-tile tc-nav-icon">{item.icon}</span>
                 <span style={{ flex:1, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{item.label}</span>
                 {isActive && <ChevronRight size={13} style={{ opacity:0.7, flexShrink:0 }}/>}
               </Link>
@@ -98,9 +98,9 @@ export default function DashboardLayout({ children }: Props) {
         </nav>
 
         {/* Logo + Logout */}
-        <div style={{ padding:"12px 10px", borderTop:"1px solid rgba(255,255,255,0.07)" }}>
+        <div className="hidden md:block" style={{ padding:"12px 10px", borderTop:"1px solid rgba(255,255,255,0.07)" }}>
           <div style={{ display:"flex", alignItems:"center", gap:8, padding:"0 4px", marginBottom:10 }}>
-            <Stethoscope size={14} style={{ color:"var(--brand)" }}/>
+            <span className="tc-icon-tile tc-icon-tile-sm"><Stethoscope size={14}/></span>
             <span style={{ fontSize:12, fontWeight:700, color:"rgba(255,255,255,0.3)", letterSpacing:1 }}>TELECONSULT</span>
           </div>
           <button onClick={logout} style={{
@@ -111,13 +111,13 @@ export default function DashboardLayout({ children }: Props) {
           }}
           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(220,38,38,0.15)"; (e.currentTarget as HTMLElement).style.color = "#fca5a5"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.45)"; }}>
-            <LogOut size={15}/> Sign Out
+            <span className="tc-icon-tile tc-icon-tile-sm"><LogOut size={15}/></span> Sign Out
           </button>
         </div>
       </aside>
 
       {/* ── Main ── */}
-      <main style={{ flex:1, padding:"32px", overflowX:"hidden", background:"var(--bg-base)", minWidth:0 }}>
+      <main className="min-w-0 flex-1 px-4 py-8 sm:px-6 md:p-8" style={{ overflowX:"hidden", background:"var(--bg-base)" }}>
         {children}
       </main>
     </div>

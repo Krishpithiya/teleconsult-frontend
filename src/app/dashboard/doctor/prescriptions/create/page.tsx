@@ -160,8 +160,8 @@ export default function CreatePrescriptionPage() {
             {/* Patient info card */}
             {appointment && (
               <div className="bg-sky-50 border border-sky-100 rounded-2xl p-4 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#1D6FA4] flex items-center justify-center flex-shrink-0">
-                  <span className="text-white font-bold text-lg">
+                <div className="tc-icon-tile tc-icon-tile-lg">
+                  <span className="font-bold text-lg">
                     {appointment.patient.name?.charAt(0)}
                   </span>
                 </div>
@@ -233,7 +233,7 @@ export default function CreatePrescriptionPage() {
                     )}
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <Input
                       label="Medicine name"
                       placeholder="e.g. Paracetamol"

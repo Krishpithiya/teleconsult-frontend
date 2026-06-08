@@ -76,8 +76,8 @@ export default function ForgotPasswordPage() {
       <div style={{ width: "100%", maxWidth: 440 }}>
         {/* Logo */}
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 36 }}>
-          <div style={{ width: 40, height: 40, borderRadius: 10, background: "var(--brand)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <Stethoscope size={22} color="#fff"/>
+          <div className="tc-icon-tile tc-icon-tile-md">
+            <Stethoscope size={22}/>
           </div>
           <span style={{ fontWeight: 800, fontSize: 20, color: "var(--brand)" }}>TeleConsult</span>
         </div>
@@ -154,7 +154,7 @@ export default function ForgotPasswordPage() {
         {step === "reset" && (
           <div className="card" style={{ padding: 32 }}>
             <div style={{ marginBottom: 24 }}>
-              <div style={{ width: 48, height: 48, borderRadius: 12, background: "var(--brand-light)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16, color: "var(--brand)" }}>
+              <div className="tc-icon-tile tc-icon-tile-lg" style={{ marginBottom: 16 }}>
                 <ShieldCheck size={24}/>
               </div>
               <h2 style={{ fontSize: "1.5rem", fontWeight: 800, marginBottom: 6 }}>Create New Password</h2>
@@ -248,11 +248,7 @@ export default function ForgotPasswordPage() {
         {/* ── STEP 3: Done ── */}
         {step === "done" && (
           <div className="card" style={{ padding: 40, textAlign: "center" }}>
-            <div style={{
-              width: 72, height: 72, borderRadius: "50%",
-              background: "var(--success-light)", display: "flex", alignItems: "center",
-              justifyContent: "center", margin: "0 auto 20px", color: "var(--success)",
-            }}>
+            <div className="tc-icon-tile tc-icon-tile-xl" style={{ margin: "0 auto 20px" }}>
               <CheckCircle size={36}/>
             </div>
             <h2 style={{ fontSize: "1.5rem", fontWeight: 800, marginBottom: 10 }}>Password Reset!</h2>

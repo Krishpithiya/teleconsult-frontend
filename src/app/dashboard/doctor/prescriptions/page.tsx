@@ -51,9 +51,9 @@ export default function DoctorPrescriptionsPage() {
                 ))
               : prescriptions.length === 0
                 ? (
-                  <div className="bg-white rounded-2xl p-16 text-center" style={{ border: "1px solid #E5ECF4" }}>
-                    <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                      <FileText size={24} className="text-slate-300" />
+                  <div className="mobile-soft-pad bg-white rounded-2xl p-16 text-center" style={{ border: "1px solid #E5ECF4" }}>
+                    <div className="tc-icon-tile tc-icon-tile-lg mx-auto mb-3">
+                      <FileText size={24} />
                     </div>
                     <p className="text-[#7A90A4] font-medium">No prescriptions issued yet</p>
                     <p className="text-[#7A90A4] text-sm mt-1">
@@ -68,8 +68,8 @@ export default function DoctorPrescriptionsPage() {
                     style={{ border: "1px solid #E5ECF4", boxShadow: "0 2px 8px rgba(13,27,42,0.04)" }}
                     onClick={() => router.push(`/dashboard/patient/prescriptions/${rx._id}`)}
                   >
-                    <div className="w-12 h-12 bg-sky-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <Pill size={20} className="text-[#1D6FA4]" />
+                    <div className="tc-icon-tile tc-icon-tile-lg">
+                      <Pill size={20} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="font-semibold text-[#0D1B2A]" style={{ fontFamily: "'Sora',sans-serif" }}>

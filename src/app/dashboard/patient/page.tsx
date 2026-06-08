@@ -143,7 +143,7 @@ export default function PatientDashboard() {
 
           {/* Stats */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {STATS.map(({ label, value, icon: Icon, color, bg, border }) => (
+            {STATS.map(({ label, value, icon: Icon, border }) => (
               <div
                 key={label}
                 className="bg-white rounded-2xl p-5 transition-all duration-200 hover:shadow-lg cursor-default"
@@ -152,11 +152,8 @@ export default function PatientDashboard() {
                   boxShadow: "0 2px 8px rgba(13,27,42,0.04)",
                 }}
               >
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
-                  style={{ background: bg }}
-                >
-                  <Icon size={18} style={{ color }} />
+                <div className="tc-icon-tile tc-icon-tile-md mb-4">
+                  <Icon size={18} />
                 </div>
                 {isLoadingStats ? (
                   <div className="skeleton h-7 w-10 rounded-lg mb-1" />
@@ -196,8 +193,8 @@ export default function PatientDashboard() {
               >
                 <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/8" />
                 <div className="absolute right-8 bottom-[-20px] w-24 h-24 rounded-full bg-white/5" />
-                <div className="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center flex-shrink-0 relative border border-white/20">
-                  <Search size={20} className="text-white" />
+                <div className="tc-icon-tile tc-icon-tile-lg relative">
+                  <Search size={20} />
                 </div>
                 <div className="relative">
                   <p className="font-bold text-white text-base">
@@ -221,11 +218,8 @@ export default function PatientDashboard() {
                   boxShadow: "0 2px 8px rgba(13,27,42,0.04)",
                 }}
               >
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: "#E8F4FD" }}
-                >
-                  <Calendar size={20} style={{ color: "#1D6FA4" }} />
+                <div className="tc-icon-tile tc-icon-tile-lg">
+                  <Calendar size={20} />
                 </div>
                 <div>
                   <p
@@ -263,10 +257,9 @@ export default function PatientDashboard() {
               }}
             >
               <div
-                className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
-                style={{ background: "#F7F9FC" }}
+                className="tc-icon-tile tc-icon-tile-xl mx-auto mb-4"
               >
-                <Calendar size={26} style={{ color: "#C5D5E4" }} />
+                <Calendar size={26} />
               </div>
               <p className="font-semibold" style={{ color: "#3D5166" }}>
                 No appointments yet

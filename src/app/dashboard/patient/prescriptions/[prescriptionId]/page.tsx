@@ -210,7 +210,7 @@ export default function PrescriptionDetailPage() {
             >
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <Stethoscope size={18} className="text-white" />
+                  <span className="tc-icon-tile tc-icon-tile-sm"><Stethoscope size={18} /></span>
                   <span
                     className="text-white font-bold text-lg"
                     style={{ fontFamily: "'Sora',sans-serif" }}
@@ -231,10 +231,10 @@ export default function PrescriptionDetailPage() {
 
             <div className="p-8 space-y-6">
               {/* Doctor + Patient info */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="bg-slate-50 rounded-2xl p-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <Stethoscope size={14} className="text-[#1D6FA4]" />
+                    <span className="tc-icon-tile tc-icon-tile-sm"><Stethoscope size={14} /></span>
                     <p className="text-xs font-semibold text-[#7A90A4] uppercase tracking-wide">
                       Doctor
                     </p>
@@ -251,7 +251,7 @@ export default function PrescriptionDetailPage() {
                 </div>
                 <div className="bg-slate-50 rounded-2xl p-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <User size={14} className="text-[#1D6FA4]" />
+                    <span className="tc-icon-tile tc-icon-tile-sm"><User size={14} /></span>
                     <p className="text-xs font-semibold text-[#7A90A4] uppercase tracking-wide">
                       Patient
                     </p>
@@ -284,7 +284,7 @@ export default function PrescriptionDetailPage() {
               {prescription.medicines.length > 0 && (
                 <div>
                   <div className="flex items-center gap-2 mb-3">
-                    <Pill size={14} className="text-[#1D6FA4]" />
+                    <span className="tc-icon-tile tc-icon-tile-sm"><Pill size={14} /></span>
                     <p className="text-xs font-semibold text-[#7A90A4] uppercase tracking-wide">
                       Prescribed Medicines
                     </p>
@@ -355,7 +355,7 @@ export default function PrescriptionDetailPage() {
               {/* Follow-up */}
               {prescription.followUpDate && (
                 <div className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-100 rounded-xl">
-                  <Calendar size={16} className="text-amber-500" />
+                  <span className="tc-icon-tile tc-icon-tile-sm"><Calendar size={16} /></span>
                   <div>
                     <p className="text-xs font-semibold text-amber-700">
                       Follow-up Appointment

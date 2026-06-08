@@ -15,6 +15,13 @@ import toast from "react-hot-toast";
 
 const DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 
+const formatDateOnly = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 const getDatesForDay = (dayName: string, weeksAhead = 3): Date[] => {
   const dayMap: Record<string, number> = {
     Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3,
@@ -46,6 +53,7 @@ export default function DoctorProfilePage() {
   const [patientNote,  setPatientNote]  = useState("");
   const [booking,      setBooking]      = useState(false);
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
+  const [availableSlots, setAvailableSlots] = useState<ITimeSlot[]>([]);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -68,11 +76,35 @@ export default function DoctorProfilePage() {
       setAvailableDates(getDatesForDay(selectedDay));
       setSelectedDate(null);
       setSelectedSlot(null);
+      setAvailableSlots([]);
     }
   }, [selectedDay]);
 
-  const currentDaySlots = profile?.availableDays.find(d => d.day === selectedDay)?.slots || [];
-  const availableSlots  = currentDaySlots.filter(s => !s.isBooked);
+  useEffect(() => {
+    const fetchSlots = async () => {
+      if (!selectedDate) {
+        setAvailableSlots([]);
+        return;
+      }
+
+      try {
+        const res = await api.get(`/doctors/${userId}/slots`, {
+          params: { date: formatDateOnly(selectedDate) },
+        });
+        const slots = Array.isArray(res.data.slots)
+          ? res.data.slots
+          : (res.data.availableDays || []).find((d: any) => d.day === selectedDay)?.slots || [];
+        setAvailableSlots(slots);
+      } catch {
+        setAvailableSlots([]);
+        toast.error("Failed to load available slots.");
+      } finally {
+        setSelectedSlot(null);
+      }
+    };
+
+    fetchSlots();
+  }, [selectedDate, selectedDay, userId]);
 
   const handleBook = async () => {
     if (!isAuthenticated) { router.push("/login"); return; }
@@ -83,8 +115,10 @@ export default function DoctorProfilePage() {
     try {
       await api.post("/appointments/book", {
         doctorId: userId,
-        appointmentDate: selectedDate.toISOString(),
+        appointmentDate: formatDateOnly(selectedDate),
         slotId: selectedSlot._id,
+        slotStartTime: selectedSlot.startTime,
+        slotEndTime: selectedSlot.endTime,
         patientNote,
       });
       toast.success("Appointment booked! Awaiting doctor confirmation.");
@@ -108,7 +142,7 @@ export default function DoctorProfilePage() {
   if (!profile) return null;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
+    <div className="mx-auto max-w-5xl px-4 py-6 sm:py-8">
 
       {/* Back */}
       <button
@@ -118,16 +152,16 @@ export default function DoctorProfilePage() {
         <ChevronLeft size={16} /> Back to doctors
       </button>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid gap-4 lg:grid-cols-3 lg:gap-6">
 
         {/* ── Left: Profile card ── */}
         <div className="lg:col-span-1 space-y-4">
-          <div className="bg-white rounded-2xl p-6 text-center">
+          <div className="rounded-2xl bg-white p-5 text-center sm:p-6">
             {profile.user.avatar ? (
               <img src={profile.user.avatar} alt={profile.user.name}
                 className="w-24 h-24 rounded-2xl object-cover mx-auto mb-4" />
             ) : (
-              <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-[#1D6FA4] to-[#22C9C9] flex items-center justify-center mx-auto mb-4">
+              <div className="tc-icon-tile mx-auto mb-4 h-24 w-24 text-3xl">
                 <span className="text-white text-3xl font-bold">{profile.user.name?.charAt(0)}</span>
               </div>
             )}
@@ -163,10 +197,10 @@ export default function DoctorProfilePage() {
           </div>
 
           {/* Details card */}
-          <div className="bg-white rounded-2xl p-5 space-y-3">
+          <div className="space-y-3 rounded-2xl bg-white p-4 sm:p-5">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-sky-50 rounded-lg flex items-center justify-center">
-                <Wallet size={15} className="text-[#1D6FA4]" />
+              <div className="tc-icon-tile tc-icon-tile-sm">
+                <Wallet size={15} />
               </div>
               <div>
                 <p className="text-xs text-[#7A90A4]">Consultation Fee</p>
@@ -174,8 +208,8 @@ export default function DoctorProfilePage() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-sky-50 rounded-lg flex items-center justify-center">
-                <Clock size={15} className="text-[#1D6FA4]" />
+              <div className="tc-icon-tile tc-icon-tile-sm">
+                <Clock size={15} />
               </div>
               <div>
                 <p className="text-xs text-[#7A90A4]">Experience</p>
@@ -183,8 +217,8 @@ export default function DoctorProfilePage() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-sky-50 rounded-lg flex items-center justify-center">
-                <Globe size={15} className="text-[#1D6FA4]" />
+              <div className="tc-icon-tile tc-icon-tile-sm">
+                <Globe size={15} />
               </div>
               <div>
                 <p className="text-xs text-[#7A90A4]">Languages</p>
@@ -193,8 +227,8 @@ export default function DoctorProfilePage() {
             </div>
             {profile.qualifications.length > 0 && (
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-sky-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Award size={15} className="text-[#1D6FA4]" />
+                <div className="tc-icon-tile tc-icon-tile-sm">
+                  <Award size={15} />
                 </div>
                 <div>
                   <p className="text-xs text-[#7A90A4]">Qualifications</p>
@@ -208,7 +242,7 @@ export default function DoctorProfilePage() {
 
           {/* Bio */}
           {profile.bio && (
-            <div className="bg-white rounded-2xl p-5">
+          <div className="rounded-2xl bg-white p-4 sm:p-5">
               <h3 className="text-sm font-semibold text-[#3D5166] mb-2">About</h3>
               <p className="text-sm text-[#7A90A4] leading-relaxed">{profile.bio}</p>
             </div>
@@ -217,7 +251,7 @@ export default function DoctorProfilePage() {
 
         {/* ── Right: Booking panel ── */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="bg-white rounded-2xl p-6">
+          <div className="rounded-2xl bg-white p-4 sm:p-6">
             <h2 className="text-lg font-bold text-[#0D1B2A] mb-5" >
               Book Appointment
             </h2>
@@ -230,7 +264,7 @@ export default function DoctorProfilePage() {
               </p>
               <div className="flex flex-wrap gap-2">
                 {profile.availableDays.map(({ day }) => {
-                  const hasSlots = profile.availableDays.find(d => d.day === day)?.slots.some(s => !s.isBooked);
+                  const hasSlots = (profile.availableDays.find(d => d.day === day)?.slots.length || 0) > 0;
                   return (
                     <button
                       key={day}
@@ -309,22 +343,29 @@ export default function DoctorProfilePage() {
                     <p className="text-sm text-[#7A90A4]">No slots available for this day</p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                    {availableSlots.map((slot) => (
-                      <button
-                        key={slot._id}
-                        onClick={() => setSelectedSlot(slot)}
-                        className={`
-                          px-3 py-2 rounded-xl text-xs font-semibold border transition-all
-                          ${selectedSlot?._id === slot._id
-                            ? "bg-[#1D6FA4] text-white border-sky-500"
-                            : "bg-white text-[#3D5166] border-[#D9E4EE] hover:border-sky-300 hover:text-[#1D6FA4]"
-                          }
-                        `}
-                      >
-                        {slot.startTime}
-                      </button>
-                    ))}
+                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                    {availableSlots.map((slot) => {
+                      const slotKey = slot._id || `${slot.startTime}-${slot.endTime}`;
+                      const selectedSlotKey = selectedSlot
+                        ? selectedSlot._id || `${selectedSlot.startTime}-${selectedSlot.endTime}`
+                        : "";
+
+                      return (
+                        <button
+                          key={slotKey}
+                          onClick={() => setSelectedSlot(slot)}
+                          className={`
+                            px-3 py-2 rounded-xl text-xs font-semibold border transition-all
+                            ${selectedSlotKey === slotKey
+                              ? "bg-[#1D6FA4] text-white border-sky-500"
+                              : "bg-white text-[#3D5166] border-[#D9E4EE] hover:border-sky-300 hover:text-[#1D6FA4]"
+                            }
+                          `}
+                        >
+                          {slot.startTime}
+                        </button>
+                      );
+                    })}
                   </div>
                 )}
               </div>
@@ -353,7 +394,7 @@ export default function DoctorProfilePage() {
             {/* Booking summary + confirm */}
             {selectedSlot && selectedDate && (
               <div className="border-t border-[#E5ECF4] pt-5">
-                <div className="flex items-center justify-between p-4 bg-sky-50 rounded-xl mb-4">
+                <div className="mb-4 flex flex-col gap-3 rounded-xl bg-sky-50 p-4 sm:flex-row sm:items-center sm:justify-between">
                   <div className="space-y-1">
                     <p className="text-xs text-[#7A90A4]">Appointment summary</p>
                     <p className="text-sm font-semibold text-slate-800">

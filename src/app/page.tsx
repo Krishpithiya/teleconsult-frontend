@@ -127,10 +127,8 @@ export default function HomePage() {
             {stats.map(s => (
               <div key={s.label} style={{ padding:"28px 20px", textAlign:"center" }}>
                 <div style={{
-                  width:48, height:48, borderRadius:12, background:"var(--brand-light)",
-                  display:"flex", alignItems:"center", justifyContent:"center",
                   margin:"0 auto 12px", color:"var(--brand)",
-                }}>
+                }} className="tc-icon-tile tc-icon-tile-md">
                   {s.icon}
                 </div>
                 <div style={{ fontSize:"1.75rem", fontWeight:800, color:"var(--brand)", lineHeight:1 }}>{s.value}</div>
@@ -159,10 +157,8 @@ export default function HomePage() {
             {features.map(f => (
               <div key={f.title} className="card card-hover" style={{ padding:28 }}>
                 <div style={{
-                  width:52, height:52, borderRadius:14, background:"var(--brand-light)",
-                  display:"flex", alignItems:"center", justifyContent:"center",
                   marginBottom:20, color:"var(--brand)",
-                }}>
+                }} className="tc-icon-tile tc-icon-tile-lg">
                   {f.icon}
                 </div>
                 <h3 style={{ fontSize:17, marginBottom:10 }}>{f.title}</h3>
@@ -214,7 +210,7 @@ export default function HomePage() {
                 }}>
                   {step.n}
                 </div>
-                <div style={{ color:"var(--brand)", marginBottom:16, marginTop:8 }}>{step.icon}</div>
+                <div className="tc-icon-tile tc-icon-tile-lg" style={{ margin:"8px auto 16px" }}>{step.icon}</div>
                 <h3 style={{ fontSize:17, marginBottom:10 }}>{step.title}</h3>
                 <p style={{ color:"var(--text-secondary)", fontSize:14, lineHeight:1.65 }}>{step.desc}</p>
               </div>
@@ -264,8 +260,8 @@ export default function HomePage() {
         padding:"40px 24px 28px", textAlign:"center", marginTop:40,
       }}>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:10, marginBottom:12 }}>
-          <div style={{ width:32, height:32, borderRadius:8, background:"var(--brand)", display:"flex", alignItems:"center", justifyContent:"center" }}>
-            <Stethoscope size={18} color="#fff"/>
+          <div className="tc-icon-tile tc-icon-tile-sm">
+            <Stethoscope size={18}/>
           </div>
           <span style={{ fontWeight:700, fontSize:18, color:"#fff" }}>TeleConsult</span>
         </div>

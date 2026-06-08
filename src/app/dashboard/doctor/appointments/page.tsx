@@ -64,18 +64,8 @@ function PromptModal({
       />
       <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 animate-fade-up">
         <div className="flex items-start gap-3 mb-4">
-          <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-            style={{
-              background: confirmVariant === "danger" ? "#FEE2E2" : "#E8F4FD",
-            }}
-          >
-            <AlertCircle
-              size={18}
-              style={{
-                color: confirmVariant === "danger" ? "#DC2626" : "#1D6FA4",
-              }}
-            />
+          <div className="tc-icon-tile tc-icon-tile-md">
+            <AlertCircle size={18} />
           </div>
           <div>
             <h3
@@ -230,8 +220,8 @@ export default function DoctorAppointmentsPage() {
                 <div key={i} className="skeleton h-28 rounded-2xl" />
               ))
             ) : appointments.length === 0 ? (
-              <div className="bg-white rounded-2xl p-16 text-center">
-                <Calendar size={24} className="text-slate-300 mx-auto mb-3" />
+              <div className="mobile-soft-pad bg-white rounded-2xl p-16 text-center">
+                <span className="tc-icon-tile tc-icon-tile-lg mx-auto mb-3"><Calendar size={24} /></span>
                 <p className="text-[#7A90A4] font-medium">
                   No appointments found
                 </p>
@@ -249,7 +239,7 @@ export default function DoctorAppointmentsPage() {
                     }}
                   >
                     {/* Date block */}
-                    <div className="flex-shrink-0 w-16 h-16 bg-sky-50 rounded-2xl flex flex-col items-center justify-center">
+                    <div className="tc-icon-tile h-16 w-16 flex-col">
                       <span className="text-xs font-semibold text-[#1D6FA4] uppercase">
                         {date.toLocaleDateString("en-US", { month: "short" })}
                       </span>

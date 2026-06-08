@@ -381,8 +381,8 @@ export default function VideoCallPage() {
       style={{ fontFamily: "'DM Sans', sans-serif" }}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 bg-slate-800/80 backdrop-blur border-b border-slate-700">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col gap-3 bg-slate-800/80 px-4 py-3 backdrop-blur border-b border-slate-700 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-4">
+        <div className="flex min-w-0 items-center gap-3">
           <div className="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse" />
           <span
             className="text-white font-semibold text-sm"
@@ -391,10 +391,10 @@ export default function VideoCallPage() {
             TeleConsult
           </span>
           {peerName && (
-            <span className="text-[#7A90A4] text-sm">· with {peerName}</span>
+            <span className="truncate text-[#7A90A4] text-sm">· with {peerName}</span>
           )}
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
           <div className="flex items-center gap-2">
             {callState === "connected" ? (
               <Wifi size={14} className="text-emerald-400" />
@@ -432,8 +432,8 @@ export default function VideoCallPage() {
           {/* Waiting overlay */}
           {(loading || (!peerName && callState !== "connected")) && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-800">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-sky-500 to-blue-700 flex items-center justify-center mb-6 animate-pulse">
-                <User size={36} className="text-white" />
+              <div className="tc-icon-tile h-20 w-20 mb-6 animate-pulse">
+                <User size={36} />
               </div>
               <p
                 className="text-white text-lg font-semibold"
@@ -479,7 +479,7 @@ export default function VideoCallPage() {
         </div>
 
         {/* Local video PiP */}
-        <div className="absolute bottom-4 right-4 w-40 sm:w-48 aspect-video rounded-2xl overflow-hidden border-2 border-slate-600 shadow-2xl bg-slate-700">
+        <div className="absolute bottom-4 right-4 w-32 aspect-video rounded-2xl overflow-hidden border-2 border-slate-600 shadow-2xl bg-slate-700 sm:w-48">
           <video
             ref={localVideoRef}
             autoPlay
@@ -499,11 +499,11 @@ export default function VideoCallPage() {
       </div>
 
       {/* Controls */}
-      <div className="bg-slate-800/90 backdrop-blur border-t border-slate-700 px-6 py-5">
-        <div className="flex items-center justify-center gap-4">
+      <div className="bg-slate-800/90 backdrop-blur border-t border-slate-700 px-4 py-4 sm:px-6 sm:py-5">
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           <button
             onClick={toggleMic}
-            className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-200 active:scale-95 ${
+            className={`tc-icon-tile w-12 h-12 transition-all duration-200 active:scale-95 ${
               micOn
                 ? "bg-slate-700 hover:bg-slate-600 text-white"
                 : "bg-red-500 hover:bg-red-600 text-white"
@@ -514,7 +514,7 @@ export default function VideoCallPage() {
 
           <button
             onClick={toggleCam}
-            className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-200 active:scale-95 ${
+            className={`tc-icon-tile w-12 h-12 transition-all duration-200 active:scale-95 ${
               camOn
                 ? "bg-slate-700 hover:bg-slate-600 text-white"
                 : "bg-red-500 hover:bg-red-600 text-white"
@@ -524,7 +524,7 @@ export default function VideoCallPage() {
           </button>
 
           <button
-            className="w-12 h-12 rounded-2xl bg-slate-700 hover:bg-slate-600 text-slate-300 flex items-center justify-center transition-all duration-200 active:scale-95"
+            className="tc-icon-tile w-12 h-12 transition-all duration-200 active:scale-95"
             title="Screen share coming soon"
           >
             <MonitorSpeaker size={20} />
@@ -536,14 +536,14 @@ export default function VideoCallPage() {
                 document.documentElement.requestFullscreen();
               else document.exitFullscreen();
             }}
-            className="w-12 h-12 rounded-2xl bg-slate-700 hover:bg-slate-600 text-slate-300 flex items-center justify-center transition-all duration-200 active:scale-95"
+            className="tc-icon-tile w-12 h-12 transition-all duration-200 active:scale-95"
           >
             <Maximize2 size={20} />
           </button>
 
           <button
             onClick={() => handleLeave(true)}
-            className="fixed bottom-6 right-6 bg-red-600 text-white px-6 py-3 rounded-full z-50 hover:bg-red-700 transition-colors"
+            className="bg-red-600 text-white px-6 py-3 rounded-full hover:bg-red-700 transition-colors sm:fixed sm:bottom-6 sm:right-6 sm:z-50"
           >
             End Call
           </button>

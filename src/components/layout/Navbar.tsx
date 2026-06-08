@@ -11,29 +11,36 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const isActive = (path: string) => pathname === path;
+  const closeMenu = () => setMenuOpen(false);
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/doctors", label: "Find Doctors" },
+  ];
 
   return (
-    <nav style={{
-      background: "#fff",
-      borderBottom: "1px solid var(--border)",
-      boxShadow: "0 1px 8px rgba(13,148,136,0.06)",
-      position: "sticky", top: 0, zIndex: 100,
-    }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", height: 64 }}>
+    <nav
+      className="sticky top-0 z-[100] bg-white"
+      style={{
+        borderBottom: "1px solid var(--border)",
+        boxShadow: "0 1px 8px rgba(13,148,136,0.06)",
+      }}
+    >
+      <div className="mx-auto flex h-16 max-w-[1200px] items-center px-4 sm:px-6">
         {/* Logo */}
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", flexShrink: 0 }}>
-          <div style={{ width: 38, height: 38, borderRadius: 10, background: "linear-gradient(135deg,#0d9488,#0284c7)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <Stethoscope size={20} color="#fff"/>
+        <Link
+          href="/"
+          onClick={closeMenu}
+          className="flex shrink-0 items-center gap-2.5 no-underline"
+        >
+          <div className="tc-icon-tile tc-icon-tile-md">
+            <Stethoscope size={20}/>
           </div>
-          <span style={{ fontWeight: 800, fontSize: 18, color: "var(--brand)", letterSpacing: "-0.02em" }}>TeleConsult</span>
+          <span className="text-[17px] font-extrabold tracking-tight sm:text-lg" style={{ color: "var(--brand)" }}>TeleConsult</span>
         </Link>
 
         {/* Desktop links */}
-        <div style={{ display: "flex", alignItems: "center", gap: 4, marginLeft: 32, flex: 1 }}>
-          {[
-            { href: "/", label: "Home" },
-            { href: "/doctors", label: "Find Doctors" },
-          ].map(l => (
+        <div className="ml-8 hidden flex-1 items-center gap-1 md:flex">
+          {navLinks.map(l => (
             <Link key={l.href} href={l.href} style={{
               padding: "6px 14px", borderRadius: 8, textDecoration: "none",
               fontSize: 14, fontWeight: isActive(l.href) ? 600 : 500,
@@ -47,7 +54,7 @@ export default function Navbar() {
         </div>
 
         {/* Auth buttons */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div className="ml-auto hidden items-center gap-2 md:flex">
           {isAuthenticated && user ? (
             <>
               <Link href={`/dashboard/${user.role}`} style={{
@@ -55,7 +62,7 @@ export default function Navbar() {
                 borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 600,
                 color: "var(--brand)", background: "var(--brand-light)", border: "1px solid var(--border)",
               }}>
-                <LayoutDashboard size={15}/>
+                <span className="tc-icon-tile tc-icon-tile-sm"><LayoutDashboard size={15}/></span>
                 Dashboard
               </Link>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -72,7 +79,7 @@ export default function Navbar() {
                   borderRadius: 8, border: "1px solid var(--border)", background: "#fff",
                   color: "var(--text-secondary)", cursor: "pointer", fontSize: 13, fontWeight: 500,
                 }}>
-                  <LogOut size={14}/> Logout
+                  <span className="tc-icon-tile tc-icon-tile-sm"><LogOut size={14}/></span> Logout
                 </button>
               </div>
             </>
@@ -92,7 +99,90 @@ export default function Navbar() {
             </>
           )}
         </div>
+
+        <button
+          type="button"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          onClick={() => setMenuOpen((open) => !open)}
+          className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-xl border md:hidden"
+          style={{ borderColor: "var(--border)", color: "var(--brand)" }}
+        >
+          {menuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
       </div>
+
+      {menuOpen && (
+        <div
+          className="border-t bg-white px-4 py-3 shadow-lg md:hidden"
+          style={{ borderColor: "var(--border)" }}
+        >
+          <div className="flex flex-col gap-2">
+            {navLinks.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={closeMenu}
+                className="rounded-xl px-3 py-2 text-sm font-semibold no-underline"
+                style={{
+                  color: isActive(l.href) ? "var(--brand)" : "var(--text-secondary)",
+                  background: isActive(l.href) ? "var(--brand-light)" : "transparent",
+                }}
+              >
+                {l.label}
+              </Link>
+            ))}
+
+            <div className="mt-2 border-t pt-3" style={{ borderColor: "var(--border)" }}>
+              {isAuthenticated && user ? (
+                <div className="flex flex-col gap-2">
+                  <Link
+                    href={`/dashboard/${user.role}`}
+                    onClick={closeMenu}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold no-underline"
+                    style={{
+                      color: "var(--brand)",
+                      background: "var(--brand-light)",
+                      border: "1px solid var(--border)",
+                    }}
+                  >
+                    <span className="tc-icon-tile tc-icon-tile-sm"><LayoutDashboard size={15} /></span>
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={() => {
+                      closeMenu();
+                      logout();
+                    }}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border bg-white px-3 py-2 text-sm font-semibold"
+                    style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
+                  >
+                    <span className="tc-icon-tile tc-icon-tile-sm"><LogOut size={14} /></span> Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-2">
+                  <Link
+                    href="/login"
+                    onClick={closeMenu}
+                    className="rounded-xl border bg-white px-3 py-2 text-center text-sm font-semibold no-underline"
+                    style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
+                  >
+                    Sign in
+                  </Link>
+                  <Link
+                    href="/register"
+                    onClick={closeMenu}
+                    className="rounded-xl px-3 py-2 text-center text-sm font-semibold text-white no-underline"
+                    style={{ background: "linear-gradient(135deg,#0d9488,#0284c7)" }}
+                  >
+                    Get Started
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

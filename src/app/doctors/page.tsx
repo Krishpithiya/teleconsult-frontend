@@ -33,7 +33,7 @@ const SPECIALIZATIONS = [
 const DoctorCard = ({ profile }: { profile: IDoctorProfile }) => (
   <Link
     href={`/doctors/${profile.user._id}`}
-    className="group bg-white rounded-2xl p-5 flex gap-4 transition-all duration-200 hover:shadow-xl hover:-translate-y-0.5"
+    className="group flex gap-3 rounded-2xl bg-white p-4 transition-all duration-200 hover:shadow-xl hover:-translate-y-0.5 sm:gap-4 sm:p-5"
     style={{
       border: "1px solid #E5ECF4",
       boxShadow: "0 2px 8px rgba(13,27,42,0.04)",
@@ -45,13 +45,10 @@ const DoctorCard = ({ profile }: { profile: IDoctorProfile }) => (
         <img
           src={profile.user.avatar}
           alt={profile.user.name}
-          className="w-16 h-16 rounded-2xl object-cover"
+          className="h-14 w-14 rounded-2xl object-cover sm:h-16 sm:w-16"
         />
       ) : (
-        <div
-          className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-xl font-bold"
-          style={{ background: "linear-gradient(135deg,#1D6FA4,#22C9C9)" }}
-        >
+        <div className="tc-icon-tile h-14 w-14 text-xl font-bold sm:h-16 sm:w-16">
           {profile.user.name?.charAt(0)}
         </div>
       )}
@@ -177,6 +174,17 @@ export default function DoctorsPage() {
       if (maxFee) params.maxFee = maxFee;
 
       const res = await api.get("/doctors", { params });
+      console.log("[patient:doctors]", {
+        total: res.data.total,
+        count: res.data.profiles?.length,
+        doctors: res.data.profiles?.map((profile: IDoctorProfile) => ({
+          name: profile.user?.name,
+          isVerified: profile.user?.isVerified,
+          isActive: profile.user?.isActive,
+          specialization: profile.specialization,
+          isProfileComplete: profile.isProfileComplete,
+        })),
+      });
       setProfiles(res.data.profiles);
       setTotal(res.data.total);
       setTotalPages(res.data.totalPages);
@@ -314,13 +322,13 @@ export default function DoctorsPage() {
             >
               Consultation Fee (₹)
             </p>
-            <div className="flex gap-3 items-center">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <Input
                 type="number"
                 placeholder="Min fee"
                 value={minFee}
                 onChange={(e) => setMinFee(e.target.value)}
-                className="max-w-[130px]"
+                className="w-full sm:max-w-[130px]"
               />
               <span className="text-sm" style={{ color: "#7A90A4" }}>
                 to
@@ -330,7 +338,7 @@ export default function DoctorsPage() {
                 placeholder="Max fee"
                 value={maxFee}
                 onChange={(e) => setMaxFee(e.target.value)}
-                className="max-w-[130px]"
+                className="w-full sm:max-w-[130px]"
               />
             </div>
           </div>
@@ -364,14 +372,11 @@ export default function DoctorsPage() {
           Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
         ) : profiles.length === 0 ? (
           <div
-            className="col-span-full bg-white rounded-2xl p-16 text-center"
+            className="mobile-soft-pad col-span-full rounded-2xl bg-white p-16 text-center"
             style={{ border: "1px solid #E5ECF4" }}
           >
-            <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
-              style={{ background: "#F7F9FC" }}
-            >
-              <Search size={28} style={{ color: "#C5D5E4" }} />
+            <div className="tc-icon-tile tc-icon-tile-xl mx-auto mb-4">
+              <Search size={28} />
             </div>
             <p className="font-semibold" style={{ color: "#3D5166" }}>
               No doctors found

@@ -61,9 +61,9 @@ export default function PatientPrescriptionsPage() {
                 <div key={i} className="skeleton h-24 rounded-2xl" />
               ))
             ) : prescriptions.length === 0 ? (
-              <div className="bg-white rounded-2xl p-16 text-center">
-                <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                  <FileText size={24} className="text-slate-300" />
+              <div className="mobile-soft-pad bg-white rounded-2xl p-16 text-center">
+                <div className="tc-icon-tile tc-icon-tile-lg mx-auto mb-3">
+                  <FileText size={24} />
                 </div>
                 <p className="text-[#7A90A4] font-medium">
                   No prescriptions yet
@@ -81,8 +81,8 @@ export default function PatientPrescriptionsPage() {
                     router.push(`/dashboard/patient/prescriptions/${rx._id}`)
                   }
                 >
-                  <div className="w-12 h-12 bg-sky-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Pill size={20} className="text-[#1D6FA4]" />
+                  <div className="tc-icon-tile tc-icon-tile-lg">
+                    <Pill size={20} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p

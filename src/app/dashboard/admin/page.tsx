@@ -42,16 +42,14 @@ function StatCard({
   label,
   value,
   icon: Icon,
-  iconColor,
-  iconBg,
   href,
   loading,
 }: {
   label: string;
   value: number | string;
   icon: LucideIcon;
-  iconColor: string;
-  iconBg: string;
+  iconColor?: string;
+  iconBg?: string;
   href?: string;
   loading?: boolean;
 }) {
@@ -79,10 +77,9 @@ function StatCard({
         )}
       </div>
       <div
-        className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0"
-        style={{ background: iconBg }}
+        className="tc-icon-tile tc-icon-tile-lg"
       >
-        <Icon size={22} style={{ color: iconColor }} strokeWidth={1.8} />
+        <Icon size={22} strokeWidth={1.8} />
       </div>
     </div>
   );
@@ -254,8 +251,8 @@ export default function AdminDashboard() {
                   className="absolute -right-6 -top-6 w-32 h-32 rounded-full"
                   style={{ background: "rgba(255,255,255,0.06)" }}
                 />
-                <div className="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center flex-shrink-0 border border-white/20">
-                  <UserCheck size={20} className="text-white" />
+                <div className="tc-icon-tile tc-icon-tile-lg">
+                  <UserCheck size={20} />
                 </div>
                 <div>
                   <p className="font-semibold text-white text-base">
@@ -278,11 +275,8 @@ export default function AdminDashboard() {
                 className="group bg-white rounded-2xl p-6 flex items-center gap-4 transition-all duration-200 hover:shadow-md"
                 style={{ border: "1px solid #E8ECF4" }}
               >
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: "#EEF2FF" }}
-                >
-                  <TrendingUp size={20} style={{ color: "#4F46E5" }} />
+                <div className="tc-icon-tile tc-icon-tile-lg">
+                  <TrendingUp size={20} />
                 </div>
                 <div>
                   <p

@@ -244,7 +244,7 @@ export default function DoctorProfilePage() {
           </div>
 
           {/* Basic info */}
-          <div className="bg-white rounded-2xl p-6 space-y-4">
+          <div className="bg-white rounded-2xl p-4 space-y-4 sm:p-6">
             <h2 className="text-sm font-semibold text-[#3D5166] uppercase tracking-wider">
               Basic Information
             </h2>
@@ -311,7 +311,7 @@ export default function DoctorProfilePage() {
           </div>
 
           {/* Qualifications */}
-          <div className="bg-white rounded-2xl p-6 space-y-3">
+          <div className="bg-white rounded-2xl p-4 space-y-3 sm:p-6">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold text-[#3D5166] uppercase tracking-wider">
                 Qualifications
@@ -347,7 +347,7 @@ export default function DoctorProfilePage() {
           </div>
 
           {/* Languages */}
-          <div className="bg-white rounded-2xl p-6 space-y-3">
+          <div className="bg-white rounded-2xl p-4 space-y-3 sm:p-6">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold text-[#3D5166] uppercase tracking-wider">
                 Languages Spoken
@@ -362,7 +362,7 @@ export default function DoctorProfilePage() {
                 Add
               </Button>
             </div>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {languages.map((lang, i) => (
                 <div key={i} className="flex gap-2">
                   <Input
@@ -385,7 +385,7 @@ export default function DoctorProfilePage() {
           </div>
 
           {/* Availability */}
-          <div className="bg-white rounded-2xl p-6 space-y-4">
+          <div className="bg-white rounded-2xl p-4 space-y-4 sm:p-6">
             <h2 className="text-sm font-semibold text-[#3D5166] uppercase tracking-wider">
               Availability Schedule
             </h2>
@@ -425,7 +425,7 @@ export default function DoctorProfilePage() {
                 key={dayEntry.day}
                 className="border border-[#E5ECF4] rounded-xl p-4 space-y-3"
               >
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-sm font-semibold text-slate-800">
                     {dayEntry.day}
                   </p>
@@ -441,7 +441,7 @@ export default function DoctorProfilePage() {
                 </div>
                 <div className="space-y-2">
                   {dayEntry.slots.map((slot, si) => (
-                    <div key={si} className="flex gap-2 items-center">
+                    <div key={si} className="flex flex-col gap-2 sm:flex-row sm:items-center">
                       <input
                         type="time"
                         value={slot.startTime}
@@ -453,7 +453,7 @@ export default function DoctorProfilePage() {
                             e.target.value,
                           )
                         }
-                        className="flex-1 px-3 py-2 text-sm border border-[#D9E4EE] rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-400"
+                        className="w-full flex-1 px-3 py-2 text-sm border border-[#D9E4EE] rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-400"
                       />
                       <span className="text-[#7A90A4] text-sm">to</span>
                       <input
@@ -467,7 +467,7 @@ export default function DoctorProfilePage() {
                             e.target.value,
                           )
                         }
-                        className="flex-1 px-3 py-2 text-sm border border-[#D9E4EE] rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-400"
+                        className="w-full flex-1 px-3 py-2 text-sm border border-[#D9E4EE] rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-400"
                       />
                       {slot.isBooked ? (
                         <span className="text-xs text-amber-600 bg-amber-50 px-2 py-1 rounded-lg flex-shrink-0">

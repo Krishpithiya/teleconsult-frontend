@@ -162,7 +162,7 @@ const NotificationBell = () => {
           <div className="max-h-80 overflow-y-auto">
             {notifications.length === 0 ? (
               <div className="py-10 text-center">
-                <Bell size={24} className="text-slate-200 mx-auto mb-2" />
+                <span className="tc-icon-tile tc-icon-tile-lg mx-auto mb-2"><Bell size={24} /></span>
                 <p className="text-sm text-[#7A90A4]">No notifications yet</p>
               </div>
             ) : (
@@ -183,10 +183,7 @@ const NotificationBell = () => {
                     `}
                   >
                     {/* Icon */}
-                    <div className={`
-                      w-8 h-8 rounded-xl flex items-center justify-center
-                      flex-shrink-0 ${config.bg} ${config.color}
-                    `}>
+                    <div className="tc-icon-tile tc-icon-tile-sm">
                       {config.icon}
                     </div>
 

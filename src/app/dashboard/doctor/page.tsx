@@ -129,10 +129,9 @@ export default function DoctorDashboard() {
               style={{ background: "#FFFBEB", borderColor: "#FDE68A" }}
             >
               <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: "#FEF3C7" }}
+                className="tc-icon-tile tc-icon-tile-md"
               >
-                <AlertCircle size={17} style={{ color: "#D97706" }} />
+                <AlertCircle size={17} />
               </div>
               <div>
                 <p className="text-sm font-bold" style={{ color: "#92400E" }}>
@@ -151,7 +150,7 @@ export default function DoctorDashboard() {
 
           {/* Stats */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {STATS.map(({ label, value, icon: Icon, color, bg }) => (
+            {STATS.map(({ label, value, icon: Icon }) => (
               <div
                 key={label}
                 className="bg-white rounded-2xl p-5 transition-all duration-200 hover:shadow-lg"
@@ -160,11 +159,8 @@ export default function DoctorDashboard() {
                   boxShadow: "0 2px 8px rgba(13,27,42,0.04)",
                 }}
               >
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
-                  style={{ background: bg }}
-                >
-                  <Icon size={18} style={{ color }} />
+                <div className="tc-icon-tile tc-icon-tile-md mb-4">
+                  <Icon size={18} />
                 </div>
                 {isLoadingStats ? (
                   <div className="skeleton h-7 w-10 rounded-lg mb-1" />
@@ -203,8 +199,8 @@ export default function DoctorDashboard() {
                 }}
               >
                 <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/8" />
-                <div className="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center flex-shrink-0 border border-white/20">
-                  <Calendar size={20} className="text-white" />
+                <div className="tc-icon-tile tc-icon-tile-lg">
+                  <Calendar size={20} />
                 </div>
                 <div>
                   <p className="font-bold text-white text-base">Appointments</p>
@@ -226,11 +222,8 @@ export default function DoctorDashboard() {
                   boxShadow: "0 2px 8px rgba(13,27,42,0.04)",
                 }}
               >
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: "#D1FAE5" }}
-                >
-                  <User size={20} style={{ color: "#059669" }} />
+                <div className="tc-icon-tile tc-icon-tile-lg">
+                  <User size={20} />
                 </div>
                 <div>
                   <p

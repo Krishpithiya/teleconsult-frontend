@@ -134,8 +134,8 @@ export default function AdminUsersPage() {
                 <div key={i} className="skeleton h-24 rounded-2xl" />
               ))
             ) : users.length === 0 ? (
-              <div className="col-span-2 bg-white rounded-2xl p-16 text-center">
-                <Users size={24} className="text-slate-300 mx-auto mb-3" />
+              <div className="mobile-soft-pad col-span-full bg-white rounded-2xl p-16 text-center">
+                <span className="tc-icon-tile tc-icon-tile-lg mx-auto mb-3"><Users size={24} /></span>
                 <p className="text-[#7A90A4] font-medium">No users found</p>
               </div>
             ) : (
@@ -148,17 +148,7 @@ export default function AdminUsersPage() {
                     `}
                 >
                   {/* Avatar */}
-                  <div
-                    className={`
-                      w-10 h-10 rounded-xl flex items-center justify-center
-                      flex-shrink-0 font-bold text-white text-base
-                      ${
-                        user.isActive
-                          ? "bg-gradient-to-br from-[#1D6FA4] to-[#22C9C9]"
-                          : "bg-slate-300"
-                      }
-                    `}
-                  >
+                  <div className="tc-icon-tile tc-icon-tile-md font-bold text-base">
                     {user.name?.charAt(0)}
                   </div>
 
